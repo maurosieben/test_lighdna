@@ -55,5 +55,5 @@ class Ui_Dialog(object):
         self.bk.setText(_translate("Dialog", "<<", None))
         self.fw.setText(_translate("Dialog", ">>", None))
         self.stop.setText(_translate("Dialog", "Finalizar", None))
-        self.play.setText(_translate("Dialog", "Play", None))
+        self.play.setText(_translate("Dialog", "Testar", None))
 

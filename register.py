@@ -4,6 +4,8 @@ import paho.mqtt.client as mqtt
 from time import gmtime, strftime
 import os
 
+num = 0
+
 prog_dir = os.path.dirname(os.path.abspath(__file__))
 
 def on_connect(client, userdata, rc):
@@ -14,6 +16,7 @@ def on_message(client, userdata, msg):
 	data = msg.payload.split(' ')
 	csvF = open("%s/registry.csv" %prog_dir,'a+')
 	lastTAG = "0"
+        global num 
 
 	if data[0] == "Hello": #Hello - Inicio de mensagem MQTT que so acontece no boot da lum. no broker
 		register = 0 #Indicativo se a lum. ja foi cadastrada anteriomente no .csv
@@ -24,11 +27,14 @@ def on_message(client, userdata, msg):
 		if register == 0: #Se ela nao foi cadastrada ate o momento, cadastra no .csv e informa o arquivo da interface
 			csvF.write(data[3]+",\n")
 			csvF.close()
-			
+			num +=1 
 			print '\nNova luminaria detectada na rede:\n'+'HW-ID:['+data[3]+'] '
 		else:
 			print "Luminaria ja cadastrada reiniciou:\n"+'HW-ID:['+data[3]+']\n'
 			csvF.close()
+                csvF = open("%s/registry.csv" %prog_dir,'r')
+
+                print "%d Luminarias conectadas" %num
 
 def make_con():
 	client = mqtt.Client()
