@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(290, 229)
+        Dialog.resize(290, 247)
         self.msg = QtGui.QLabel(Dialog)
         self.msg.setGeometry(QtCore.QRect(30, 30, 311, 31))
         self.msg.setObjectName(_fromUtf8("msg"))
@@ -44,6 +44,18 @@ class Ui_Dialog(object):
         self.play = QtGui.QPushButton(Dialog)
         self.play.setGeometry(QtCore.QRect(110, 130, 61, 27))
         self.play.setObjectName(_fromUtf8("play"))
+        self.on = QtGui.QPushButton(Dialog)
+        self.on.setGeometry(QtCore.QRect(20, 170, 51, 27))
+        self.on.setObjectName(_fromUtf8("on"))
+        self.off = QtGui.QPushButton(Dialog)
+        self.off.setGeometry(QtCore.QRect(210, 170, 51, 27))
+        self.off.setObjectName(_fromUtf8("off"))
+        self.ok = QtGui.QPushButton(Dialog)
+        self.ok.setGeometry(QtCore.QRect(20, 210, 98, 27))
+        self.ok.setObjectName(_fromUtf8("ok"))
+        self.nok = QtGui.QPushButton(Dialog)
+        self.nok.setGeometry(QtCore.QRect(160, 210, 98, 27))
+        self.nok.setObjectName(_fromUtf8("nok"))
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -56,4 +68,8 @@ class Ui_Dialog(object):
         self.fw.setText(_translate("Dialog", ">>", None))
         self.stop.setText(_translate("Dialog", "Finalizar", None))
         self.play.setText(_translate("Dialog", "Testar", None))
+        self.on.setText(_translate("Dialog", "ON", None))
+        self.off.setText(_translate("Dialog", "OFF", None))
+        self.ok.setText(_translate("Dialog", "Aprovar", None))
+        self.nok.setText(_translate("Dialog", "Rejeitar", None))
 

@@ -33,11 +33,47 @@ class MyDialog(QtGui.QDialog):
         self.ui.stop.clicked.connect(self.close)
         self.ui.fw.clicked.connect(self.next_tag)
         self.ui.bk.clicked.connect(self.prev_tag)
+        self.ui.on.clicked.connect(self.ifon)
+        self.ui.off.clicked.connect(self.ifoff)
+        self.ui.ok.setStyleSheet("background-color: green; color: black")
+        self.ui.nok.setStyleSheet("background-color: red; color: black")
+#        self.ui.ok.setStyleSheet("color: black")
         self.ui.play.clicked.connect(self.test_unity)
+        self.ui.ok.clicked.connect(lambda:self.flip_status('ok'))
+        self.ui.nok.clicked.connect(lambda:self.flip_status('off'))
         global child_pid 
         prog = subprocess.Popen("python %s/register.py &" %prog_dir,shell=True ) 
         child_pid = prog.pid
     
+    def flip_status(self, status):
+        # updates devive status on id.csv
+        f=open("%s/id.csv" %prog_dir,"r+")
+        lines = f.readlines()
+        f.close()
+        f=open("%s/id.csv" %prog_dir,"w")
+        for line in lines: 
+            linecut = line.split(',')
+            last =(len(linecut)-1)
+            dev=linecut[0]
+            if dev==dev_list[tag]:
+                if status == 'ok':
+                    if(linecut[last]=='1\n'):
+                        f.write(line.replace('\n',',ok\n'))
+                    elif(linecut[last]=='nok\n'):
+                        f.write(line.replace('nok\n','ok\n'))
+                    else:
+                        f.write(line)
+                else:
+                    if(linecut[last]=='1\n'):
+                        f.write(line.replace('\n',',nok\n'))
+                    elif(linecut[last]=='ok\n'):
+                        f.write(line.replace('ok\n','nok\n'))
+                    else:
+                        f.write(line)
+            else:
+                f.write(line)
+        f.close()
+
     def write_msg(self,string):
         self.ui.msg.setText(string)
 
@@ -111,6 +147,21 @@ class MyDialog(QtGui.QDialog):
         sleep(5)
         client.publish("lights/%s" %dev_ID, "W0001-000")
         client.disconnect()
+
+    def ifon(self):
+        dev_ID= dev_list[tag]
+        client = mqtt.Client()
+        client.connect("192.168.0.100", 1883, 60)
+        client.publish("lights/%s" %dev_ID, "W0001-100")
+        client.disconnect()
+    
+    def ifoff(self):
+        dev_ID= dev_list[tag]
+        client = mqtt.Client()
+        client.connect("192.168.0.100", 1883, 60)
+        client.publish("lights/%s" %dev_ID, "W0001-000")
+        client.disconnect()
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
