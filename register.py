@@ -14,7 +14,7 @@ def on_connect(client, userdata, rc):
 
 def on_message(client, userdata, msg):
 	data = msg.payload.split(' ')
-	csvF = open("%s/registry.csv" %prog_dir,'a+')
+	csvF = open("%s/csv/registry.csv" %prog_dir,'a+')
 	lastTAG = "0"
         global num 
 
@@ -32,7 +32,7 @@ def on_message(client, userdata, msg):
 		else:
 			print "Luminaria ja cadastrada reiniciou:\n"+'HW-ID:['+data[3]+']\n'
 			csvF.close()
-                csvF = open("%s/registry.csv" %prog_dir,'r')
+                csvF = open("%s/csv/registry.csv" %prog_dir,'r')
 
                 print "%d Luminarias conectadas" %num
 
